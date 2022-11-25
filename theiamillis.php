@@ -114,7 +114,7 @@ if ($argv[1] == "-h" || $argv[1] == "--help") {
         banner();
         print "\nError: No URL/IP specified";
         exit();
-    } elseif (file_get_contents($argv[2])) {
+    } elseif (file($argv[2])) {
         banner();
         print "\nError: You can't use a file as URL/IP";
         exit();
