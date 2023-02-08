@@ -27,7 +27,7 @@ tulip -d [domain] -v [version] -o [output]
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[GNU General Public License v2.0](https://github.com/elliottophellia/tulip/blob/main/LICENSE)
 
 ## Disclaimer
 This tool is for educational purposes only. I am not responsible for any misuse of this tool.
