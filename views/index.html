@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Tulip - Reverse IP Lookup</title>
+    <link rel="shortcut icon" href="https://blog.rei.my.id/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <div class="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
+        <section class="p-4 flex flex-col justify-center min-h-screen max-w-md mx-auto">
+            <p class="text-white overline text-right hover:font-extrabold"><a href="https://rei.my.id"
+                    target="_blank">BUY ME A COFFEE</a></p>
+            <div class="p-6 bg-white">
+                <div class="flex items-center justify-center m-1 mb-9">
+                    <h1
+                        class="tracking-wide text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400">
+                        <a href="/">Reverse IP Lookup</a>
+                    </h1>
+                </div>
+                <form action="/api/reverseip" method="GET" class="flex flex-col">
+                    <div class="mb-4">
+                        <input
+                            class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="domain" name="domain" type="text" placeholder="Enter Domain or IP" />
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <button
+                            class="bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+                            type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="flex items-center justify-center" id="resultContainer" style="display: none;">
+                <textarea
+                    class="appearance-none w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="result" name="result" rows="7" readonly></textarea>
+            </div>
+            <div class="flex justify-between mt-4" id="buttonExtra" style="display: none;">
+                <button
+                    class="bg-white text-pink-300 font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-1/2 mr-2"
+                    id="copyButton" name="copyButton">Copy</button>
+                <button
+                    class="bg-white text-purple-300 font-bold py-2 px-4 focus:outline-none focus:shadow-outline w-1/2 ml-2"
+                    id="saveButton" name="saveButton">Save</button>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form").on("submit", function (event) {
+                event.preventDefault();
+                var submitButton = $(this).find('button[type="submit"]');
+                var originalButtonText = submitButton.text();
+                submitButton.text("Wait a minute ;)");
+
+                $.ajax({
+                    url: "/api/reverseip",
+                    type: "GET",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        // Convert the array of results into a string, with each result on a new line
+                        var resultText = data.ReqResult.ResultList.join('\n');
+                        $("#result").val(resultText);
+                        $("#resultContainer").show();
+                        $("#buttonExtra").show();
+                        submitButton.text(originalButtonText);
+                    },
+                    error: function () {
+                        submitButton.text(originalButtonText);
+                    },
+                });
+            });
+            $("#copyButton").click(function () {
+                var copyText = $("#result");
+                copyText.select();
+                document.execCommand("copy");
+                alert("Copied the text: " + copyText.val());
+            });
+
+            $("#saveButton").click(function () {
+                var textToSave = $("#result").val();
+                var hiddenElement = $('<a></a>');
+                hiddenElement.attr('href', 'data:attachment/text,' + encodeURI(textToSave));
+                hiddenElement.attr('download', Math.random() + '_result_reverseip.txt');
+                hiddenElement[0].click();
+            });
+        });
+    </script>
+</body>
+
+</html>
