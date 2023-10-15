@@ -1,62 +1,55 @@
-<p align="center">
-<img src="./assets/img/tulip.ico"/><br/>
-<b>T u l i p</b><br/>
-Free Unlimited Reverse IP Lookup<br/>
-@elliottophellia
+<p align='center'>
+<img src='https://i.ibb.co/QJ78JGn/kaga.png' width='300'/><br/><img src="https://img.shields.io/badge/KAGA%20REVERSE%20IP%20LOOKUP-pink?style=for-the-badge"/><br/>
+Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to make it easy to use in any environment. The name Kaga itself is taken from virtual youtuber <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Nazuna">Kaga Nazuna</a> and <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Sumire">Kaga Sumire</a> from <a href="https://vspo.jp/">Virtual Esport Project</a>.<br/><br/><img src="https://img.shields.io/badge/PYTHON-3.10-pink?style=flat-square"/> <img src="https://img.shields.io/badge/LICENE-GPL2.0-pink?style=flat-square"/> <img src="https://img.shields.io/badge/VERSION-1.0.0-pink?style=flat-square"/><br/><a href="https://www.paypal.com/paypalme/elliottophellia"><img src="https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-pink?style=for-the-badge&logo=paypal&logoColor=black"/></a> <a href="https://saweria.co/elliottophellia"><img src="https://img.shields.io/badge/TRAKTIR%20SAYA%20KOPI-pink?style=for-the-badge&logo=BuyMeACoffee&logoColor=black"/></a>
 </p>
+<h1></h1>
+<p align='center'>
+<a href="#Changelogs"><img src="https://img.shields.io/badge/CHANGELOGS-pink?style=for-the-badge"/></a> <a href="#Prerequisites"><img src="https://img.shields.io/badge/PREREQUISITES-pink?style=for-the-badge"/></a> <a href="#Installing"><img src="https://img.shields.io/badge/INSTALLING-pink?style=for-the-badge"/></a> <a href="#Screenshot"><img src="https://img.shields.io/badge/SCREENSHOT-pink?style=for-the-badge"/></a> <a href="#Licence"><img src="https://img.shields.io/badge/LICENCE-pink?style=for-the-badge"/></a> <a href="#Disclaimer"><img src="https://img.shields.io/badge/DISCLAIMER-pink?style=for-the-badge"/></a>
+</p>
+<h1></h1>
 
+# Changelogs - v1.0.0
 
-## _how to install_
+- Moving from Tulip v2.0.0 written in PHP 7 to Kaga v1.0.0 written in Python 3
 
-### _windows_
+# Prerequisites
 
-Simply download portable .exe from [release](https://github.com/elliottophellia/tulip/releases)
+- python - 3.10
+- pip - 22.0.2 
+- fastapi - 0.103.2
+- httpx - 0.25.0
+- lxml - 4.9.3
+- starlette - 0.31.1
+- beautifulsoup4 - 4.12.2
 
-### _other_
+# Installing
 
-If you're using Linux, MacOS, or Android you can try this
+### 1. Clone this repository
+```
+git clone http://github.com/elliottopellia/kaga
+```
+### 2. Change directory to aizawa
+```
+cd kaga
+```
+### 3. Install dependencies
+```
+pip install -r requirements.txt
+```
+### 4. Run aizawa
+```
+uvicorn main:app --host 0.0.0.0 --port 3000
+```
 
-- Download PHP
-  - sudo pacman -Sy php (Arch)
-- Clone this repo
-  - git clone https://github.com/elliottophellia/tulip
-- Go to tulip repo
-  - cd tulip
-- Run PHP Development Server
-  - php -S localhost:8000
-- Open your browser with that url
+# Screenshot
 
-### _hosting_
+![1](https://i.ibb.co/FXGCKbM/Capture.png)
+![2](https://i.ibb.co/zNTS35N/Capture1.png)
 
-If you planning to upload this project into your hosting, you can simply upload all of script to your hosting.
+# Licence
 
-## _screenshot_
+This project is licensed under the GPL 2.0 License - see the [LICENCE](https://github.com/elliottophellia/kaga/blob/main/LICENSE) file for details
 
-<img src="https://i.ibb.co/FJkJkvD/tulip1.png" width="100%" />
-<img src="https://i.ibb.co/X4ZCz0v/tulip2.png" width="100%" />
-<img src="https://i.ibb.co/R0Hfz2V/tulip3.png" width="100%" />
+# Disclaimer
 
-## _support me_
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/elliottophellia)
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/elliottophellia)
-
-## _license_
-
-GNU GENERAL PUBLIC LICENSE<br/>
-Version 2, June 1991
-
-Copyright (C) 1989, 1991 Free Software Foundation, Inc.,<br/>
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA<br/>
-Everyone is permitted to copy and distribute verbatim copies<br/>
-of this license document, but changing it is not allowed.
-
-## _contribute_
-
-if you want to contribute to this project, you can fork this project and make a pull request, or you can contact me on [twitter](https://twitter.com/elliottophellia) or [email](mailto:me@rei.my.id)
-
-## _disclaimer_
-
-Any actions and or activities related to the material contained within this project is solely your responsibility<br/>
-The misuse of the information in this project can result in criminal charges brought against the persons in question<br/>
-The author will not be held responsible in the event any criminal charges be brought against any individuals misusing the information in this project to break the law.
+This project is for educational purposes only any kinds of actions and or activities related to the material contained within this project is solely your responsibility The misuse of the information in this project can result in criminal charges brought against the persons in question The author will not be held responsible in the event any criminal charges be brought against any individuals misusing the information in this project to break the law.
