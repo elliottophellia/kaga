@@ -19,7 +19,6 @@ Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to 
 - fastapi - 0.103.2
 - httpx - 0.25.0
 - lxml - 4.9.3
-- starlette - 0.31.1
 - beautifulsoup4 - 4.12.2
 
 # Installing
