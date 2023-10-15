@@ -5,8 +5,8 @@
     <meta charset="UTF-8" />
     <title>Tulip - Reverse IP Lookup</title>
     <link rel="shortcut icon" href="https://blog.rei.my.id/favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://unpkg.com/tailwindcss-cdn@3.3.4/tailwindcss.js"></script>
+    <script src="https://unpkg.com/jquery@3.7.1/dist/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -63,7 +63,6 @@
                     type: "GET",
                     data: $(this).serialize(),
                     success: function (data) {
-                        // Convert the array of results into a string, with each result on a new line
                         var resultText = data.ReqResult.ResultList.join('\n');
                         $("#result").val(resultText);
                         $("#resultContainer").show();
