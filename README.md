@@ -28,7 +28,7 @@ Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to 
 ```
 git clone http://github.com/elliottopellia/kaga
 ```
-### 2. Change directory to aizawa
+### 2. Change directory to kaga
 ```
 cd kaga
 ```
@@ -36,7 +36,7 @@ cd kaga
 ```
 pip install -r requirements.txt
 ```
-### 4. Run aizawa
+### 4. Run kaga
 ```
 uvicorn main:app --host 0.0.0.0 --port 3000
 ```
