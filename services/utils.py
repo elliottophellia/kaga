@@ -12,7 +12,7 @@ async def fetch_data(domain):
         }
 
         yougetsignal_payload = {
-          "remoteAddress": socket.gethostbyname("rei.my.id"),
+          "remoteAddress": socket.gethostbyname(domain),
           "key": "",
           "_": "",
         }
@@ -31,7 +31,7 @@ async def fetch_data(domain):
            results.append(item[0])
 
         ipchaxun = await client.request(
-          url="https://ipchaxun.com/" + socket.gethostbyname("rei.my.id") + "/", method="get"
+          url="https://ipchaxun.com/" + socket.gethostbyname(domain) + "/", method="get"
         )
 
         ipchaxun_soup = BeautifulSoup(ipchaxun.text, "html.parser")
@@ -43,7 +43,7 @@ async def fetch_data(domain):
         for ipchaxun_domain in ipchaxun_domains:
           results.append(ipchaxun_domain.get("href").strip("/"))
 
-        webscancc_payload = {"domain": socket.gethostbyname("rei.my.id")}
+        webscancc_payload = {"domain": socket.gethostbyname(domain)}
 
         webscancc_headers = {
           "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -80,7 +80,7 @@ async def fetch_data(domain):
         ])
 
         ip138 = await client.request(
-          url="https://site.ip138.com/" + socket.gethostbyname("rei.my.id") + "/",
+          url="https://site.ip138.com/" + socket.gethostbyname(domain) + "/",
           method="get",
         )
 
@@ -93,7 +93,7 @@ async def fetch_data(domain):
         results.extend([tag["href"].strip("/") for tag in ip138_domain_tags])
 
         rapiddns = await client.request(
-          url="https://rapiddns.io/s/" + socket.gethostbyname("rei.my.id") + "?full=1#result",
+          url="https://rapiddns.io/s/" + socket.gethostbyname(domain) + "?full=1#result",
           method="get",
         )
 
