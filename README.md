@@ -1,6 +1,6 @@
 <p align='center'>
 <img src='https://i.ibb.co/QJ78JGn/kaga.png' width='300'/><br/><img src="https://img.shields.io/badge/KAGA%20REVERSE%20IP%20LOOKUP-pink?style=for-the-badge"/><br/>
-Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to make it easy to use in any environment. The name Kaga itself is taken from virtual youtuber <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Nazuna">Kaga Nazuna</a> and <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Sumire">Kaga Sumire</a> from <a href="https://vspo.jp/">Virtual Esport Project</a>.<br/><br/><img src="https://img.shields.io/badge/PYTHON-3.10-pink?style=flat-square"/> <img src="https://img.shields.io/badge/LICENE-GPL2.0-pink?style=flat-square"/> <img src="https://img.shields.io/badge/VERSION-1.0.0-pink?style=flat-square"/><br/><a href="https://www.paypal.com/paypalme/elliottophellia"><img src="https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-pink?style=for-the-badge&logo=paypal&logoColor=black"/></a> <a href="https://saweria.co/elliottophellia"><img src="https://img.shields.io/badge/TRAKTIR%20SAYA%20KOPI-pink?style=for-the-badge&logo=BuyMeACoffee&logoColor=black"/></a>
+Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to make it easy to use in any environment. The name Kaga itself is taken from virtual youtuber <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Nazuna">Kaga Nazuna</a> and <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Sumire">Kaga Sumire</a> from <a href="https://vspo.jp/">VSPO</a>.<br/><br/><img src="https://img.shields.io/badge/PYTHON-3.10-pink?style=flat-square"/> <img src="https://img.shields.io/badge/LICENE-GPL2.0-pink?style=flat-square"/> <img src="https://img.shields.io/badge/VERSION-1.0.1-pink?style=flat-square"/><br/><a href="https://www.paypal.com/paypalme/elliottophellia"><img src="https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-pink?style=for-the-badge&logo=paypal&logoColor=black"/></a> <a href="https://saweria.co/elliottophellia"><img src="https://img.shields.io/badge/TRAKTIR%20SAYA%20KOPI-pink?style=for-the-badge&logo=BuyMeACoffee&logoColor=black"/></a>
 </p>
 <h1></h1>
 <p align='center'>
@@ -8,9 +8,23 @@ Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to 
 </p>
 <h1></h1>
 
-# Changelogs - v1.0.0
+# Changelogs - v1.0.1
 
-- Moving from Tulip v2.0.0 written in PHP 7 to Kaga v1.0.0 written in Python 3
+###  Back-end :
+- Refactored the code
+   - Refactored code in utils.py
+       - Make new scraping methods
+       - Recoded entire utils.py
+- Drop hackertarget because it's poor result
+- Add New source
+    - Rapiddns
+- Fix ip138 invalid domain request
+
+###  Front-end :   
+- Fix typo 
+- Add notice
+    - when input is empty
+    - when input is invalid
 
 # Prerequisites
 
@@ -18,7 +32,6 @@ Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to 
 - pip - 22.0.2 
 - fastapi - 0.103.2
 - httpx - 0.25.0
-- lxml - 4.9.3
 - beautifulsoup4 - 4.12.2
 
 # Installing

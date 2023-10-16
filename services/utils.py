@@ -1,59 +1,112 @@
 import json
 import httpx
 import socket
-from lxml import html
 from bs4 import BeautifulSoup
 
 async def fetch_data(domain):
+    results = []
     async with httpx.AsyncClient(verify=False, timeout=None) as client:
-        headers = {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
-        query = {"remoteAddress": domain, "key": "", "_": ""}
 
-        async def fetch_api_data(url, method="get", data=None, headers=None, json_path=None, text_split=False, soup_parse=False):
-            response = await client.request(method, url, data=data, headers=headers)
-            if response.status_code == 200:
-                if json_path:
-                    return json.loads(response.text).get(json_path, [])
-                elif text_split:
-                    return response.text.split('\n')
-                elif soup_parse:
-                    soup = BeautifulSoup(response.text, 'html.parser')
-                    ul_tag = soup.find('ul', id='list')
-                    if ul_tag is not None:
-                         domain_tags = ul_tag.find_all('a')
-                         return [tag['href'].strip('/') for tag in domain_tags]
-                    else:
-                         return []
-                else:
-                    return html.fromstring(response.text).xpath("//p//span[@class='date']/following-sibling::a[starts-with(@href, '/')]/text()")
-            else:
-                return []
+        yougetsignal_headers = {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+        }
 
-        yougetsignal = await fetch_api_data("https://domains.yougetsignal.com/domains.php", "post", data=query, headers=headers, json_path="domainArray")
-        ipchaxun = await fetch_api_data("https://ipchaxun.com/"+ socket.gethostbyname(domain) +"/")
-        webscan = await fetch_api_data("https://api.webscan.cc/query/"+ domain +"/", json_path="domain")
-        hackertarget = await fetch_api_data("https://api.hackertarget.com/reverseiplookup/?q=" + domain, text_split=True)
-        ip138 = await fetch_api_data("https://site.ip138.com/" + socket.gethostbyname(domain) + "/", soup_parse=True)
+        yougetsignal_payload = {
+          "remoteAddress": socket.gethostbyname("rei.my.id"),
+          "key": "",
+          "_": "",
+        }
 
-        # Ensure all results are lists of strings (domains)
-        yougetsignal = [item for sublist in yougetsignal for item in sublist] if yougetsignal and isinstance(yougetsignal[0], list) else yougetsignal
-        ipchaxun = [item for sublist in ipchaxun for item in sublist] if ipchaxun and isinstance(ipchaxun[0], list) else ipchaxun
-        webscan = [item for sublist in webscan for item in sublist] if webscan and isinstance(webscan[0], list) else webscan
-        hackertarget = [item for sublist in hackertarget for item in sublist] if hackertarget and isinstance(hackertarget[0], list) else hackertarget
-        ip138 = [item for sublist in ip138 for item in sublist] if ip138 and isinstance(ip138[0], list) else ip138
+        yougetsignal = await client.request(
+          url="https://domains.yougetsignal.com/domains.php",
+          method="post",
+          data=yougetsignal_payload,
+          headers=yougetsignal_headers,
+        )
 
-        # Combine all results into a single list of strings (domains)
-        combined_results = []
-        combined_results.extend(yougetsignal)
-        combined_results.extend(ipchaxun)
-        combined_results.extend(webscan)
-        combined_results.extend(hackertarget)
-        combined_results.extend(ip138)
+        response_json = json.loads(yougetsignal.text)
 
-        # Remove duplicates
-        combined_results = list(set(combined_results))
+        if "domainArray" in response_json:
+          for item in response_json["domainArray"]:
+           results.append(item[0])
 
-        # Filter out empty strings and not a valid domain
-        combined_results = [domain for domain in combined_results if domain and domain.count('.') >= 1]
+        ipchaxun = await client.request(
+          url="https://ipchaxun.com/" + socket.gethostbyname("rei.my.id") + "/", method="get"
+        )
 
-        return combined_results
+        ipchaxun_soup = BeautifulSoup(ipchaxun.text, "html.parser")
+
+        ipchaxun_div = ipchaxun_soup.find("div", id="J_domain")
+
+        ipchaxun_domains = ipchaxun_div.find_all("a")
+
+        for ipchaxun_domain in ipchaxun_domains:
+          results.append(ipchaxun_domain.get("href").strip("/"))
+
+        webscancc_payload = {"domain": socket.gethostbyname("rei.my.id")}
+
+        webscancc_headers = {
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+          "Accept-Language": "en-US,en;q=0.5",
+          "Cache-Control": "max-age=0",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Origin": "https://webscan.cc",
+          "Referer": "https://webscan.cc/",
+          "Sec-Ch-Ua": '"Chromium";v="118", "Brave";v="118", "Not=A?Brand";v="99"',
+          "Sec-Ch-Ua-Mobile": "?0",
+          "Sec-Ch-Ua-Platform": '"Windows"',
+          "Sec-Fetch-Dest": "document",
+          "Sec-Fetch-Mode": "navigate",
+          "Sec-Fetch-Site": "same-origin",
+          "Sec-Fetch-User": "?1",
+          "Sec-Gpc": "1",
+          "Upgrade-Insecure-Requests": "1",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+        }
+
+        webscancc = await client.request(
+          url="https://webscan.cc/",
+          method="post",
+          data=webscancc_payload,
+          headers=webscancc_headers,
+        )
+
+        webscancc_soup = BeautifulSoup(webscancc.text, "html.parser")
+
+        webscancc_a_tags = webscancc_soup.find_all("a", class_="domain")
+
+        results.extend([
+          a["href"].replace("/site_", "").replace("/", "") for a in webscancc_a_tags
+        ])
+
+        ip138 = await client.request(
+          url="https://site.ip138.com/" + socket.gethostbyname("rei.my.id") + "/",
+          method="get",
+        )
+
+        ip138_soup = BeautifulSoup(ip138.text, "html.parser")
+
+        ip138_ul_tag = ip138_soup.find("ul", id="list")
+
+        ip138_domain_tags = ip138_ul_tag.find_all("a")
+
+        results.extend([tag["href"].strip("/") for tag in ip138_domain_tags])
+
+        rapiddns = await client.request(
+          url="https://rapiddns.io/s/" + socket.gethostbyname("rei.my.id") + "?full=1#result",
+          method="get",
+        )
+
+        rapiddns_soup = BeautifulSoup(rapiddns.text, "html.parser")
+
+        rapiddns_table = rapiddns_soup.find(
+          "table", {"class": ["table", "table-striped", "table-bordered"]}
+        )
+
+        rapiddns_tr_tags = rapiddns_table.find_all("tr")
+
+        results.extend([
+          tr.find_all("td")[0].text for tr in rapiddns_tr_tags if tr.find_all("td")
+        ])
+
+    return list(dict.fromkeys(results))
