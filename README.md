@@ -1,30 +1,20 @@
 <p align='center'>
 <img src='https://i.ibb.co/QJ78JGn/kaga.png' width='300'/><br/><img src="https://img.shields.io/badge/KAGA%20REVERSE%20IP%20LOOKUP-pink?style=for-the-badge"/><br/>
-Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to make it easy to use in any environment. The name Kaga itself is taken from virtual youtuber <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Nazuna">Kaga Nazuna</a> and <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Sumire">Kaga Sumire</a> from <a href="https://vspo.jp/">VSPO</a>.<br/><br/><img src="https://img.shields.io/badge/PYTHON-3.10-pink?style=flat-square"/> <img src="https://img.shields.io/badge/LICENE-GPL2.0-pink?style=flat-square"/> <img src="https://img.shields.io/badge/VERSION-1.0.1-pink?style=flat-square"/><br/><a href="https://www.paypal.com/paypalme/elliottophellia"><img src="https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-pink?style=for-the-badge&logo=paypal&logoColor=black"/></a> <a href="https://saweria.co/elliottophellia"><img src="https://img.shields.io/badge/TRAKTIR%20SAYA%20KOPI-pink?style=for-the-badge&logo=BuyMeACoffee&logoColor=black"/></a>
+Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to make it easy to use in any environment. The name Kaga itself is taken from virtual youtuber <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Nazuna">Kaga Nazuna</a> and <a href="https://virtualyoutuber.fandom.com/wiki/Kaga_Sumire">Kaga Sumire</a> from <a href="https://vspo.jp/">VSPO</a>.<br/><br/><img src="https://img.shields.io/badge/PYTHON-3.10-pink?style=flat-square"/> <img src="https://img.shields.io/badge/LICENE-GPL2.0-pink?style=flat-square"/> <img src="https://img.shields.io/badge/VERSION-1.0.2-pink?style=flat-square"/><br/><a href="https://www.paypal.com/paypalme/elliottophellia"><img src="https://img.shields.io/badge/BUY%20ME%20A%20COFFEE-pink?style=for-the-badge&logo=paypal&logoColor=black"/></a> <a href="https://saweria.co/elliottophellia"><img src="https://img.shields.io/badge/TRAKTIR%20SAYA%20KOPI-pink?style=for-the-badge&logo=BuyMeACoffee&logoColor=black"/></a>
 </p>
 <h1></h1>
 <p align='center'>
-<a href="#Changelogs"><img src="https://img.shields.io/badge/CHANGELOGS-pink?style=for-the-badge"/></a> <a href="#Prerequisites"><img src="https://img.shields.io/badge/PREREQUISITES-pink?style=for-the-badge"/></a> <a href="#Installing"><img src="https://img.shields.io/badge/INSTALLING-pink?style=for-the-badge"/></a> <a href="#Screenshot"><img src="https://img.shields.io/badge/SCREENSHOT-pink?style=for-the-badge"/></a> <a href="#Licence"><img src="https://img.shields.io/badge/LICENCE-pink?style=for-the-badge"/></a> <a href="#Disclaimer"><img src="https://img.shields.io/badge/DISCLAIMER-pink?style=for-the-badge"/></a>
+<a href="#Changelogs"><img src="https://img.shields.io/badge/CHANGELOGS-pink?style=for-the-badge"/></a> <a href="#Prerequisites"><img src="https://img.shields.io/badge/PREREQUISITES-pink?style=for-the-badge"/></a> <a href="#Usage"><img src="https://img.shields.io/badge/USAGE-pink?style=for-the-badge"/></a> <a href="#Host"><img src="https://img.shields.io/badge/HOST-pink?style=for-the-badge"/></a> <a href="#Screenshot"><img src="https://img.shields.io/badge/SCREENSHOT-pink?style=for-the-badge"/></a> <a href="#Licence"><img src="https://img.shields.io/badge/LICENCE-pink?style=for-the-badge"/></a> <a href="#Disclaimer"><img src="https://img.shields.io/badge/DISCLAIMER-pink?style=for-the-badge"/></a>
 </p>
 <h1></h1>
 
-# Changelogs - v1.0.1
+# Changelogs - v1.0.2
 
 ###  Back-end :
-- Refactored the code
-   - Refactored code in utils.py
-       - Make new scraping methods
-       - Recoded entire utils.py
-- Drop hackertarget because it's poor result
-- Add New source
-    - Rapiddns
-- Fix ip138 invalid domain request
-
-###  Front-end :   
-- Fix typo 
-- Add notice
-    - when input is empty
-    - when input is invalid
+- Another refactor for utils.py
+    - Add a code to return result with empty string if source is unavailable
+    - Refactor the code to send all the HTTP requests concurrently to make it faster
+    - Remove yougetsignal from source because it's poor result and constantly fail request
 
 # Prerequisites
 
@@ -34,11 +24,15 @@ Kaga is a reverse IP lookup tool written in Python, comes with a GUI and API to 
 - httpx - 0.25.0
 - beautifulsoup4 - 4.12.2
 
-# Installing
+# Usage
+
+Simply download the newest version from [Releases](https://github.com/elliottophellia/kaga/releases) and run it.
+
+# Host
 
 ### 1. Clone this repository
 ```
-git clone http://github.com/elliottopellia/kaga
+git clone http://github.com/elliottophellia/kaga
 ```
 ### 2. Change directory to kaga
 ```

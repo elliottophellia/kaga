@@ -7,5 +7,5 @@
 
 ## Long-term
 
-- [ ] Make a portable app for Windows and Linux
+- [X] Make a portable app for Windows and Linux
 - [ ] Find a way to bypass cloudflare in viewdns.info / osint.sh / dnslytics.com / www.dnsgrep.cn / securitytrails.com
