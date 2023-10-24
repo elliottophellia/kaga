@@ -1,5 +1,6 @@
 import time
 import socket
+import validators
 from fastapi import APIRouter, Request, Form
 from services.utils import fetch_data
 from starlette.responses import HTMLResponse
@@ -18,8 +19,12 @@ async def reverseapi(request: Request, domain: str = Form(None)):
     
     domain = domain or request.query_params.get("domain")
     
-    if not domain:
-        return {"ReqStatus": 400}
+    if not domain or (not validators.domain(domain) and not validators.ipv4(domain)):
+        return {
+            "ReqStatus": 500,
+            "ReqMethod": request.method,
+            "Message": "Invalid domain or IP address"
+        }
     
     response = await fetch_data(domain)
     
@@ -27,7 +32,11 @@ async def reverseapi(request: Request, domain: str = Form(None)):
     req_time = end_time - start_time
     
     if not response:
-        return {"ReqStatus": 500}
+        return {
+            "ReqStatus": 500,
+            "ReqMethod": request.method,
+            "Message": "Failed to fetch data"
+        }
     
     return {
         "ReqTime": req_time,
