@@ -2,13 +2,21 @@ import asyncio
 import socket
 from requests_html import AsyncHTMLSession
 
+
 async def fetch_data(domain):
     results = []
     client = AsyncHTMLSession()
 
-    webscancc_payload = {
-        "domain": socket.gethostbyname(domain)
-    }
+    try:
+        ip_address = socket.gethostbyname(domain)
+    except socket.gaierror:
+        print(f"Unable to resolve domain: {domain}")
+        ip_address = None
+
+    if ip_address is None:
+        return results
+
+    webscancc_payload = {"domain": ip_address}
 
     webscancc_headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -31,20 +39,30 @@ async def fetch_data(domain):
 
     # Prepare all the requests
     requests = [
-        client.get("https://ipchaxun.com/" + socket.gethostbyname(domain) + "/"),
+        client.get("https://ipchaxun.com/" + ip_address + "/"),
         client.post("https://webscan.cc/", data=webscancc_payload, headers=webscancc_headers),
-        client.get("https://site.ip138.com/" + socket.gethostbyname(domain) + "/"),
-        client.get("https://rapiddns.io/s/" + socket.gethostbyname(domain) + "?full=1#result"),
+        client.get("https://site.ip138.com/" + ip_address + "/"),
+        client.get("https://rapiddns.io/s/" + ip_address + "?full=1#result"),
     ]
 
     # Send all the requests concurrently
-    try:
-        responses = await asyncio.gather(*requests, return_exceptions=True)
-    except Exception as e:
-        print(f"A request encountered an error: {e}")
+    responses = []
+    for request in requests:
+        try:
+            response = await asyncio.wait_for(request, timeout=3)
+            responses.append(response)
+        except asyncio.TimeoutError:
+            print("A request timed out and was skipped.")
+            responses.append(None)
+        except Exception as e:
+            print(f"A request encountered an error: {e}")
+            responses.append(None)
 
     # Process the responses
     for i, response in enumerate(responses):
+        if response is None:
+            print(f"Request {i} was not successful and was skipped.")
+            continue
         if isinstance(response, Exception):
             print(f"Request {i} encountered an error: {response}")
             continue
