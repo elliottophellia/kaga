@@ -15,7 +15,7 @@ by @elliottophellia        )88
 " -ForegroundColor DarkBlue
 
 # Get user input
-$userInput = Read-Host -Prompt 'Input your Domain/IP Address' 
+$userInput = Read-Host -Prompt 'Input your Domain/IP Address: ' 
 
 # Remove http:// or https://
 $userInput = $userInput -replace 'http(s)?://', ''
