@@ -15,8 +15,7 @@ async def read_items():
 
 @router.api_route("/api/reverseip", methods=["GET", "POST", "PUT"])
 async def reverseapi(request: Request, domain: str = Form(None)):
-    start_time = time.perf_counter()
-    
+
     domain = domain or request.query_params.get("domain")
     
     if not domain or (not validators.domain(domain) and not validators.ipv4(domain)):
@@ -26,9 +25,12 @@ async def reverseapi(request: Request, domain: str = Form(None)):
             "Message": "Invalid domain or IP address"
         }
     
+    start_time = time.perf_counter()
+
     response = await fetch_data(domain)
     
     end_time = time.perf_counter()
+    
     req_time = end_time - start_time
     
     if not response:

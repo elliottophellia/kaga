@@ -1,20 +1,21 @@
-import asyncio
+
 import socket
+import asyncio
+from termcolor import colored
 from requests_html import AsyncHTMLSession
 
-
 async def fetch_data(domain):
-    results = []
+    results = set()
     client = AsyncHTMLSession()
 
     try:
         ip_address = socket.gethostbyname(domain)
     except socket.gaierror:
-        print(f"Unable to resolve domain: {domain}")
+        print(f"{colored(' ERROR ', 'white', 'on_red', attrs=['bold'])} Unable to resolve domain: {domain}")
         ip_address = None
 
     if ip_address is None:
-        return results
+        return list(results)
 
     webscancc_payload = {"domain": ip_address}
 
@@ -39,10 +40,10 @@ async def fetch_data(domain):
 
     # Prepare all the requests
     requests = [
-        client.get("https://ipchaxun.com/" + ip_address + "/"),
-        client.post("https://webscan.cc/", data=webscancc_payload, headers=webscancc_headers),
-        client.get("https://site.ip138.com/" + ip_address + "/"),
-        client.get("https://rapiddns.io/s/" + ip_address + "?full=1#result"),
+        client.get("https://ipchaxun.com/" + ip_address + "/",timeout=0.7),
+        client.post("https://webscan.cc/", data=webscancc_payload, headers=webscancc_headers,timeout=1.0),
+        client.get("https://site.ip138.com/" + ip_address + "/",timeout=0.5),
+        client.get("https://rapiddns.io/s/" + ip_address + "?full=1#result",timeout=0.7),
     ]
 
     # Send all the requests concurrently
@@ -52,19 +53,19 @@ async def fetch_data(domain):
             response = await asyncio.wait_for(request, timeout=3)
             responses.append(response)
         except asyncio.TimeoutError:
-            print("A request timed out and was skipped.")
+            print(f"{colored(' ERROR ', 'white', 'on_red', attrs=['bold'])} A request timed out and was skipped.")
             responses.append(None)
         except Exception as e:
-            print(f"A request encountered an error: {e}")
+            print(f"{colored(' ERROR ', 'white', 'on_red', attrs=['bold'])} A request encountered an error: {e}")
             responses.append(None)
 
     # Process the responses
     for i, response in enumerate(responses):
         if response is None:
-            print(f"Request {i} was not successful and was skipped.")
+            print(f"{colored(' ERROR ', 'white', 'on_red', attrs=['bold'])} Request {i} was not successful and was skipped.")
             continue
         if isinstance(response, Exception):
-            print(f"Request {i} encountered an error: {response}")
+            print(f"{colored(' ERROR ', 'white', 'on_red', attrs=['bold'])} Request {i} encountered an error: {response}")
             continue
         if response.status_code == 200:
             if i == 0:  # ipchaxun
@@ -75,11 +76,11 @@ async def fetch_data(domain):
                         domain = ipchaxun_domain.replace(
                             "https://ipchaxun.com/", ""
                         ).strip("/")
-                        results.append(domain)
+                        results.add(domain)
             elif i == 1:  # webscancc
                 webscancc_a_tags = response.html.find(".domain")
                 if webscancc_a_tags:
-                    results.extend(
+                    results.update(
                         [
                             a.attrs["href"].replace("/site_", "").replace("/", "")
                             for a in webscancc_a_tags
@@ -91,19 +92,21 @@ async def fetch_data(domain):
                     ip138_domain_tags = ip138_ul_tag.absolute_links
                     for tag in ip138_domain_tags:
                         domain = tag.replace("https://site.ip138.com/", "").strip("/")
-                        results.extend([domain])
+                        results.add(domain)
             elif i == 3:  # rapiddns
                 rapiddns_table = response.html.find(
                     ".table.table-striped.table-bordered", first=True
                 )
                 if rapiddns_table:
                     rapiddns_tr_tags = rapiddns_table.find("tr")
-                    results.extend(
+                    results.update(
                         [
                             tr.find("td", first=True).text
                             for tr in rapiddns_tr_tags
                             if tr.find("td")
                         ]
                     )
+                    
+    await client.close()
 
-    return list(dict.fromkeys(results))
+    return list(results)

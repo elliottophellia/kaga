@@ -1,3 +1,4 @@
 fastapi==0.103.2
 requests-html==0.10.0
 validators==0.22.0
+termcolor==2.3.0
