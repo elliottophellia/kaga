@@ -76,3 +76,5 @@ as the name is changed.
 # Disclaimer
 
 This project is for educational purposes only any kinds of actions and or activities related to the material contained within this project is solely your responsibility The misuse of the information in this project can result in criminal charges brought against the persons in question The author will not be held responsible in the event any criminal charges be brought against any individuals misusing the information in this project to break the law.
+
+[<img src="https://api.gitsponsors.com/api/badge/img?id=564265932" height="20">](https://api.gitsponsors.com/api/badge/link?p=bAnuNjO7DqrOD1ca2vVmipNQSsSM9s4fAkg+V7pb5R+XuUgcBRJBdabrWQXjH0cFbfMZOU+FBE+V/dRZo9ZBzPfVwNhXUe+wDdSSh5UieefVVUWS1GUj0z4v/QzlZL+mk6gs9Og740s0NV52YfRjmoi8yLqOZ5LwS38IvdqD+GM=)
